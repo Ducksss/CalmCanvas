@@ -74,6 +74,73 @@ export function renderMenuItemsToDOM(shouldRerenderAllChildren) {
   scrollMenuDown()
 }
 
+function handleToggleMenu(e) {
+  if (e) e.stopPropagation()
+
+  const allMainToggles = main.querySelectorAll(
+    'button, a, input, textarea, select'
+  )
+  const allMenuToggles = menuRoot.querySelectorAll(
+    'button, a, input, textarea, select'
+  )
+  const settingsToggle = menuRoot.querySelector('button.header')
+
+  if (state.isMenuOpen) {
+    state.isMenuOpen = false
+    menuRoot.classList.remove('menu-open')
+    main.removeAttribute('class')
+    window.removeEventListener('mousedown', handleOuterClick)
+    window.removeEventListener('keydown', handleKeyDown)
+
+    // disable tabindex on all menu focusable els.
+    allMenuToggles.forEach(toggle => toggle.setAttribute('tabindex', '-1'))
+    // Enable tabindex on all main focusable els.
+    allMainToggles.forEach(toggle => toggle.setAttribute('tabindex', '0'))
+  } else {
+    state.isMenuOpen = true
+    menuRoot.classList.add('menu-open')
+    main.classList.add('blur')
+    window.addEventListener('mousedown', handleOuterClick)
+    window.addEventListener('keydown', handleKeyDown)
+
+    // Enable tabindex on settings toggle.
+    settingsToggle.setAttribute('tabindex', '0')
+    // Disable tabindex on all main focusable els.
+    allMainToggles.forEach(toggle => toggle.setAttribute('tabindex', '-1'))
+  }
+}
+
+function handleOuterClick(e) {
+  if (state.isMenuOpen) {
+    const target = e.target
+    if (!menuRoot.contains(target) && target !== menuToggler) {
+      handleToggleMenu(null)
+    }
+  }
+}
+
+function handleKeyDown(e) {
+  if (e.key === `Escape` && state.isMenuOpen) {
+    // @ts-ignore
+    menuToggler.focus()
+    handleToggleMenu(null)
+  }
+}
+
+function getItemMarkup(item) {
+  const li = document.createElement('li')
+  li.setAttribute('class', 'menu-day')
+
+  li.innerHTML = `
+    <p>${item.id}</p>  
+    <ul>
+      ${item.items.map(i => `<li>${i}</li>`).join('')} 
+    </ul>
+  `
+
+  return li
+}
+
 // Updates state.days to reflect checkbox clicks, and updates localStorage
 // to reflect the change.
 export function updateDaysList(actionType, payload) {

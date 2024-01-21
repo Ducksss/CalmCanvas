@@ -1,5 +1,6 @@
 import setupChecklist from './checklist.mjs'
 import setupMenu from './menu.mjs'
+import setupSettings from './settings.mjs'
 
 window.onload = () => init()
 
@@ -7,6 +8,8 @@ function init() {
   setupDate()
   setupChronograph(localStorage.getItem('end_day'))
   setupChecklist()
+  setupMenu()
+  setupSettings()
   document.body.style.opacity = '1'
 }
 
