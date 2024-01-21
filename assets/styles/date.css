@@ -1,0 +1,48 @@
+div.date {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  color: var(--color-black);
+  display: grid;
+  grid-gap: .5vw;
+}
+
+div.date .year {
+  display: block;
+  text-align: end;
+  font-size: var(--font-small);
+}
+
+@keyframes fadeInUp {
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+div.date .day {
+  display: block;
+  font-size: var(--font-large);
+  text-align: end;
+}
+
+@keyframes slideInFromRight {
+  to {
+    transform: translateX(0);
+  }
+}
+
+span.split-letter {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  font-family: inherit;
+}
+
+span.split-letter > span {
+  display: block;
+  font-family: inherit;
+  transform: translateX(100%);
+  animation: slideInFromRight 1000ms var(--ease);
+  animation-fill-mode: forwards;
+}

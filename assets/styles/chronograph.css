@@ -1,0 +1,56 @@
+ul.chronograph {
+  list-style: none;
+  display: grid;
+  grid-gap: 0.5vw;
+  padding: 0;
+  font-size: var(--font-small);
+}
+
+ul.chronograph > li {
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(var(--font-small) * 8) auto;
+  grid-gap: 1vw;
+  padding: 5px;
+  margin: -5px;
+  text-shadow: 1px 0px var(--color-white);
+  color: var(--color-black);
+  cursor: default;
+  outline: none;
+}
+
+ul.chronograph > li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid var(--color-black);
+  opacity: 0;
+  pointer-events: none;
+  touch-action: none;
+}
+
+ul.chronograph > li.focus-visible::before {
+  opacity: 1;
+}
+
+ul.chronograph > li .hover-text,
+ul.chronograph > li #week-remaining,
+ul.chronograph > li #today-remaining {
+  background: var(--color-white);
+  text-align: end;
+}
+
+@media (hover: hover) {
+  ul.chronograph > li .hover-text {
+    opacity: 0;
+    transition: opacity 250ms var(--ease);
+  }
+
+  ul.chronograph > li:hover .hover-text,
+  ul.chronograph > li:focus .hover-text {
+    opacity: 1;
+  }
+}

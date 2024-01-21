@@ -1,0 +1,96 @@
+@font-face {
+  font-family: 'GTAmerica';
+  src: url('../../assets/fonts/GT-America-Mono-Regular.woff2') format('woff2'),
+    url('../../assets/fonts/GT-America-Mono-Regular.woff') format('woff');
+  font-weight: 100 700;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../../assets/fonts/Inter-Regular.woff2') format('woff2'),
+    url('../../assets/fonts/Inter-Regular.woff') format('woff');
+  font-weight: 100 700;
+}
+
+* {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: 'pnum';
+  font-feature-settings: 'pnum';
+  font-variant-numeric: proportional-nums;
+  font-family: var(--font-mono);
+  box-sizing: border-box;
+}
+
+:root {
+  --font-small: 0.85vw;
+  --font-medium: 15px;
+  --font-ml: 1.5vw;
+  --font-large: 2vw;
+  --font-x-large: 10vw;
+
+  --font-inter: Inter;
+  --font-mono: GTAmerica;
+
+  --color-white: rgb(18, 21, 25);
+  --color-black: rgb(250, 249, 248);
+  --color-gray: rgb(114, 127, 136);
+
+  --box-shadow: 2px 2px 0px 0px var(--color-black);
+  --border-radius: 8px;
+
+  --ease: cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
+  margin: 0;
+  font-size: var(--font-medium);
+}
+
+body {
+  background: var(--color-white);
+  padding: 0 0 10vw 0;
+  margin: 0;
+}
+
+::selection {
+  background: transparent;
+  color: var(--color-gray);
+}
+::-moz-selection {
+  background: transparent;
+  color: var(--color-gray);
+}
+
+/*
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+textarea {
+  outline: none;
+}
+
+.hidden {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  user-select: none;
+  pointer-events: none;
+  touch-action: none;
+}
