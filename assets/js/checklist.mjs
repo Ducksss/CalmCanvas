@@ -47,7 +47,7 @@ export default function setupChecklist() {
   window.addEventListener('resize', () => {
     // @ts-ignore
     const textareas = Array.from(root.querySelectorAll('textarea'))
-    textareas.forEach(t => handleResize(t))
+    textareas.forEach((t) => handleResize(t))
   })
 
   // Poll for updates when user leaves window and comes back.
@@ -63,12 +63,12 @@ export function renderChecklistItemsToDOM(items, initialMount) {
 
   // Shift new editor to end.
   markup.push(getListItemMarkup(null, null, initialMount))
-  markup.forEach(m => root.appendChild(m))
+  markup.forEach((m) => root.appendChild(m))
 
   // Map today values to have a property, isInOriginalPosition, which
   // will let us know how to translate the element.
   // @ts-ignore
-  state.items = items.map(t => ({
+  state.items = items.map((t) => ({
     item: t,
     isInOriginalPosition: true,
     el: root.querySelector(`[data-id="${t.id}"]`),
@@ -80,7 +80,7 @@ export function renderChecklistItemsToDOM(items, initialMount) {
   //   3c. toggle visibilty back on
 
   // @ts-ignore
-  Array.from(root.querySelectorAll('li')).forEach(i => {
+  Array.from(root.querySelectorAll('li')).forEach((i) => {
     const [textarea, checkbox, dragger] = [
       i.querySelector('textarea'),
       i.querySelector('button.checklist-toggler'),
@@ -124,7 +124,7 @@ function addEventListenersToCheckbox(checkbox) {
     // 2. Transform all li elements up after this checkbox.parentNode.
     const amountToTranslate = parentNode.getBoundingClientRect().height
     const elementsToMove = getAllElementsAfter(parentNode)
-    elementsToMove.forEach(el => {
+    elementsToMove.forEach((el) => {
       el.style.transform = `translate3d(0px, ${amountToTranslate * -1}px, 0px)`
       el.style.transition = `transform ${TRANSITION_DURATION}ms var(--ease)`
       el.style.transitionDelay = `${TRANSITION_DURATION}ms`
@@ -142,7 +142,7 @@ function addEventListenersToCheckbox(checkbox) {
       root.removeChild(parentNode)
 
       // Reset translated elements.
-      elementsToMove.forEach(el => el.removeAttribute('style'))
+      elementsToMove.forEach((el) => el.removeAttribute('style'))
     }, TRANSITION_DURATION * 2)
 
     // 4. Update localStorage and menu.
@@ -287,7 +287,7 @@ function addEventListenersToDragger(dragger) {
       state.isMouseDown = true
       // @ts-ignore
       state.currentDraggingIndex = state.items.findIndex(
-        i => i.item.id === currentItem.getAttribute('data-id')
+        (i) => i.item.id === currentItem.getAttribute('data-id')
       )
 
       state.originalIndexOfCurrentDraggingElement = state.currentDraggingIndex
@@ -307,7 +307,7 @@ function addEventListenersToDragger(dragger) {
         root.querySelectorAll('li[data-id]:not(.dragging)')
       )
 
-      restOfItems.forEach(el => {
+      restOfItems.forEach((el) => {
         el.style.opacity = '.25'
         el.style.transition = 'none'
         el.style.animation = ''
@@ -332,7 +332,7 @@ function addEventListenersToDragger(dragger) {
   // our calculations are finished.
   let isTransitioningIntersection = false
   function calculateIntersection() {
-    restOfItems.forEach(el => {
+    restOfItems.forEach((el) => {
       if (!isTransitioningIntersection) {
         // Check if current dragged item is intersecting the center of target.
         const {
@@ -363,7 +363,7 @@ function addEventListenersToDragger(dragger) {
           // 1. Get the index of the intersecting element.
           // @ts-ignore
           const indexIntersected = state.items.findIndex(
-            i => i.item.id === dataId
+            (i) => i.item.id === dataId
           )
           // 2. Calculate which elements need to move.
           const itemsToShift =
@@ -375,9 +375,8 @@ function addEventListenersToDragger(dragger) {
               : state.items.slice(indexIntersected, state.currentDraggingIndex)
 
           // 3. Before moving, cache the position of the intersected element.
-          const itemIntersectedPosition = state.items[
-            indexIntersected
-          ].el.getBoundingClientRect()
+          const itemIntersectedPosition =
+            state.items[indexIntersected].el.getBoundingClientRect()
 
           const currentOpenIndexCachedPosition = {
             height: itemIntersectedPosition.height,
@@ -405,12 +404,13 @@ function addEventListenersToDragger(dragger) {
               currentOpenIndexCachedPosition.height
           }
 
-          itemsToShift.forEach(item => {
+          itemsToShift.forEach((item) => {
             if (item.isInOriginalPosition) {
               item.isInOriginalPosition = false
               item.el.style.transform = `translate3d(0px, ${translateAmt}px, 0px)`
-              item.el.style.transition = `transform ${TRANSITION_DURATION /
-                2}ms var(--ease)`
+              item.el.style.transition = `transform ${
+                TRANSITION_DURATION / 2
+              }ms var(--ease)`
             } else {
               item.isInOriginalPosition = true
               item.el.style.transform = `translate3d(0px, 0px, 0px)`
@@ -453,9 +453,9 @@ function addEventListenersToDragger(dragger) {
     }
 
     if (!isScrolling) {
-      currentItem.style.transform = `translate3d(${
-        translate.x
-      }px, ${translate.y + translateOffsetAmount}px, 0px)`
+      currentItem.style.transform = `translate3d(${translate.x}px, ${
+        translate.y + translateOffsetAmount
+      }px, 0px)`
     }
     currentItem.style.transition = 'none'
     currentItem.style.zIndex = 2
@@ -499,9 +499,9 @@ function addEventListenersToDragger(dragger) {
         top: window.pageYOffset + direction * 10,
       })
 
-      currentItem.style.transform = `translate3d(${
-        translate.x
-      }px, ${translate.y + translateOffsetAmount}px, 0px)`
+      currentItem.style.transform = `translate3d(${translate.x}px, ${
+        translate.y + translateOffsetAmount
+      }px, 0px)`
 
       scrollAnimationId = requestAnimationFrame(() => scroll(direction))
     }
@@ -527,7 +527,7 @@ function addEventListenersToDragger(dragger) {
     currentItem.style.transform = `translate3d(0px, ${translateY}px, 0px)`
     currentItem.style.transition = `transform ${TRANSITION_DURATION}ms var(--ease)`
 
-    restOfItems.forEach(el => {
+    restOfItems.forEach((el) => {
       el.style.opacity = '1'
       el.style.transition = 'none'
       el.style.animation = ''
@@ -569,7 +569,7 @@ function addEventListenersToDragger(dragger) {
       )
 
       // Reset state.items array so all items are now in their updated positions.
-      state.items.forEach(i => {
+      state.items.forEach((i) => {
         i.isInOriginalPosition = true
         i.el.removeAttribute('style')
       })
@@ -600,7 +600,7 @@ function getListItemMarkup(id, value, isInitialMount) {
       </button>
       <textarea
         class="checklist-item"
-        placeholder="Get sh%t done!"
+        placeholder="What to do today?"
         spellcheck="false"
       >${value ? value : ''}</textarea>
       <button class="drag">
@@ -635,11 +635,11 @@ function updateListItems(action, value) {
 
   switch (action) {
     case 'DELETE':
-      items = items.filter(i => i.id !== value.id)
+      items = items.filter((i) => i.id !== value.id)
       updateStateItems(items)
       break
     case 'UPDATE':
-      items = items.map(i => {
+      items = items.map((i) => {
         if (value.id === null) {
           shouldUpdate = false
         }
@@ -658,13 +658,13 @@ function updateListItems(action, value) {
       items.push(value)
       break
     case 'REORDER':
-      items = value.map(i => i.item)
+      items = value.map((i) => i.item)
       updateStateItems(items)
       break
   }
 
   function updateStateItems(items) {
-    state.items = items.map(i => ({
+    state.items = items.map((i) => ({
       item: i,
       isInOriginalPosition: true,
       el: root.querySelector(`[data-id="${i.id}"]`),
@@ -686,7 +686,7 @@ function pollUpdate() {
     const items = JSON.parse(localStorage.getItem(storageIds.today))
 
     if (
-      JSON.stringify(items) !== JSON.stringify(state.items.map(i => i.item))
+      JSON.stringify(items) !== JSON.stringify(state.items.map((i) => i.item))
     ) {
       renderChecklistItemsToDOM(items, false)
       renderMenuItemsToDOM(true)
